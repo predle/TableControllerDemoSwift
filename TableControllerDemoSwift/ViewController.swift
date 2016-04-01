@@ -21,7 +21,7 @@ class ViewController: UIViewController, BaseTableControllerDelegate {
         
         }
         
-        let didSelectCell: (tableViewCell: BaseTableViewCell, model: BaseModel) -> () = { model in
+        let didSelectCell: (tableViewCell: BaseTableViewCell, model: BaseModel) -> () = { tableViewCell, model in
             
         }
         
