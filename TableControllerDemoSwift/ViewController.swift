@@ -11,18 +11,18 @@ import UIKit
 class ViewController: UIViewController, BaseTableControllerDelegate {
 
     @IBOutlet weak var tableView: UITableView!
-    var tableController: BaseTableController<BaseModel, BaseTableViewCell>?
+    var tableController: BaseTableController<BaseTableViewCell, BaseModel>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
         let bindWithModel: (tableViewCell: BaseTableViewCell, model:BaseModel) -> () = { tableViewCell, model in
-        
+            // Bind View with Model
         }
         
         let didSelectCell: (tableViewCell: BaseTableViewCell, model: BaseModel) -> () = { tableViewCell, model in
-            
+            // Push To ViewController
         }
         
         tableController = BaseTableController(tableView: tableView, delegate: self, bindWithModel: bindWithModel, didSelectCell: didSelectCell)

@@ -12,7 +12,7 @@ protocol BaseTableControllerDelegate {
     
 }
 
-class BaseTableController<T: BaseModel, C: UITableViewCell>: NSObject, UITableViewDataSource, UITableViewDelegate {
+class BaseTableController<C: UITableViewCell, T: BaseModel>: NSObject, UITableViewDataSource, UITableViewDelegate {
     
     private var content: [T] = []
     
@@ -73,5 +73,29 @@ class BaseTableController<T: BaseModel, C: UITableViewCell>: NSObject, UITableVi
         }
         
     }
+    
+    //
+    
+    func addModel(model: T) {
+        content.append(model)
+    }
+    
+    func addModels(models: [T]) {
+        content+=models
+    }
+    
+    func removeModel(model: T) {
+        // Remove Model
+    }
+    
+    func reloadData(){
+        self.tableView?.reloadData()
+    }
+    
+    
+    
+    
+    
+    
     
 }
