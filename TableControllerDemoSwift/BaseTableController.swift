@@ -16,19 +16,21 @@ class BaseTableController<T: BaseModel, C: UITableViewCell>: NSObject, UITableVi
     
     private var content: [T] = []
     
-    ///
+    //
     
     private var delegate: BaseTableControllerDelegate?
     private weak var tableView: UITableView?
-    private var bindWithModel: (model: T) -> () = { model in
+    private var bindWithModel: (tableViewCell: C, model: T) -> () = { tableViewCell, model in
         
     }
-    private var didSelectCell: (model: T) -> () = { model in
+    private var didSelectCell: (tableViewCell: C, model: T) -> () = { tableViewCell, model in
 
     }
     private var cellIdentifier: String?
 
-    init(tableView: UITableView, delegate: BaseTableControllerDelegate, bindWithModel: (model: T) -> (), didSelectCell: (model: T) -> ()) {
+    //
+    
+    init(tableView: UITableView, delegate: BaseTableControllerDelegate, bindWithModel: (tableViewCell: C, model: T) -> (), didSelectCell: (tableViewCell: C, model: T) -> ()) {
         super.init()
         
         self.didSelectCell = didSelectCell
@@ -41,9 +43,10 @@ class BaseTableController<T: BaseModel, C: UITableViewCell>: NSObject, UITableVi
         self.tableView?.dataSource = self
         
         self.cellIdentifier = String(C.Type)
+        
     }
     
-    convenience init(tableView: UITableView, delegate: BaseTableControllerDelegate, bindWithModel: (model: T) -> (), didSelectCell: (model: T) -> (), cellIdentifier: String) {
+    convenience init(tableView: UITableView, delegate: BaseTableControllerDelegate, bindWithModel: (tableViewCell: C, model: T) -> (), didSelectCell: (tableViewCell: C, model: T) -> (), cellIdentifier: String) {
         self.init(tableView: tableView, delegate: delegate, bindWithModel: bindWithModel, didSelectCell: didSelectCell)
         
         self.cellIdentifier = cellIdentifier
@@ -58,7 +61,7 @@ class BaseTableController<T: BaseModel, C: UITableViewCell>: NSObject, UITableVi
     @objc func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell: C = tableView.dequeueReusableCellWithIdentifier(self.cellIdentifier!, forIndexPath: indexPath) as! C
         if let model: T = self.content[indexPath.row] {
-            bindWithModel(model: model)
+            bindWithModel(tableViewCell:cell, model: model)
         }
         return cell
     }
@@ -66,7 +69,7 @@ class BaseTableController<T: BaseModel, C: UITableViewCell>: NSObject, UITableVi
     @objc func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         if let model: T = self.content[indexPath.row] {
-            didSelectCell(model: model)
+            didSelectCell(tableViewCell: tableView.cellForRowAtIndexPath(indexPath) as! C, model: model)
         }
         
     }

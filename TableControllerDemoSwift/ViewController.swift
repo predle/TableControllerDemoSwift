@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, BaseTableControllerDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     var tableController: BaseTableController<BaseModel, BaseTableViewCell>?
@@ -17,13 +17,21 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        let bindWithModel: (tableViewCell: BaseTableViewCell, model:BaseModel) -> () = { tableViewCell, model in
+        
+        }
+        
+        let didSelectCell: (tableViewCell: BaseTableViewCell, model: BaseModel) -> () = { model in
+            
+        }
+        
+        tableController = BaseTableController(tableView: tableView, delegate: self, bindWithModel: bindWithModel, didSelectCell: didSelectCell)
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
 
 }
 
