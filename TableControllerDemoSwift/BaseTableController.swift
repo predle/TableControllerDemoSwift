@@ -27,7 +27,9 @@ class BaseTableController<C: UITableViewCell, T: BaseModel>: NSObject, UITableVi
 
     }
     private var cellIdentifier: String?
-
+    private var rowHeight: CGFloat?
+    private var estimatedRowHeight: CGFloat?
+    
     //
     
     init(tableView: UITableView, delegate: BaseTableControllerDelegate, bindWithModel: (tableViewCell: C, model: T) -> (), didSelectCell: (tableViewCell: C, model: T) -> ()) {
@@ -42,7 +44,10 @@ class BaseTableController<C: UITableViewCell, T: BaseModel>: NSObject, UITableVi
         self.tableView?.delegate = self
         self.tableView?.dataSource = self
         
-        self.cellIdentifier = String(C.Type)
+        self.cellIdentifier = String(C.self)
+        
+        self.rowHeight = UITableViewAutomaticDimension;
+        self.estimatedRowHeight = 44.0;
         
     }
     
@@ -50,6 +55,13 @@ class BaseTableController<C: UITableViewCell, T: BaseModel>: NSObject, UITableVi
         self.init(tableView: tableView, delegate: delegate, bindWithModel: bindWithModel, didSelectCell: didSelectCell)
         
         self.cellIdentifier = cellIdentifier
+    }
+    
+    convenience init(tableView: UITableView, delegate: BaseTableControllerDelegate, bindWithModel: (tableViewCell: C, model: T) -> (), didSelectCell: (tableViewCell: C, model: T) -> (), rowHeight: CGFloat, estimatedRowHeight: CGFloat) {
+        self.init(tableView: tableView, delegate: delegate, bindWithModel: bindWithModel, didSelectCell: didSelectCell)
+        
+        self.rowHeight = rowHeight
+        self.estimatedRowHeight = estimatedRowHeight
     }
     
     //
